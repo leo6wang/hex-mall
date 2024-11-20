@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: auth-server
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.1.8:8848
+      username: nacos
+      password: nacos
+      discovery:  # nacos注册中心配置
+        namespace: abef49f0-e2f0-4b80-ab81-991a4fa6e4d7
+        group: DEV
+        service: ${spring.application.name}
+      config: # nacos配置中心配置
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        prefix: ${spring.application.name}
+        file-extension: yml
+        shared-configs:   # 配置共享配置文件
+          - data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: ${spring.cloud.nacos.discovery.group}
